@@ -36,7 +36,21 @@ app.get('/info', (request, response) => {
   response.send(`<h2>Phonebook has info for ${persons.length} people</h2><h2>${currentDate}.</h2>`)
 })
 
+app.get('/api/persons/:id', (request, response) => {
+  const id = request.params.id
+  const entry = persons.find(entry => entry.id == id)
+  if (entry) {
+    response.json(entry)
+  }else{
+    response.status(404).end()
+  }
+})
 
+app.delete('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id)
+  persons = persons.filter(entry => entry != id)
+  response.status(204).end()
+})
 
   const PORT = 3001
   app.listen(PORT)
