@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 
+
 app.use(express.json())
 
 let entries = [
@@ -30,6 +31,17 @@ app.get('/api/persons', (request, response) => {
     response.json(entries)
   })
 
+  app.get("/info", (req, res, next) => {
+    const requestTime = new Date(Date.now())
+  
+    Person.find({})
+      .then((persons) => {
+        res.send(
+          `<p>Phonebook has info for ${persons.length} people</p> <p>${requestTime}</p>`
+        )
+      })
+      .catch((error) => next(error))
+  })
 
   const PORT = 3001
   app.listen(PORT)
